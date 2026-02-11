@@ -1,0 +1,41 @@
+# --- Spoken TalkGroup support ----------------------------
+
+variable spokenTgTable
+array set spokenTgTable {}
+
+proc loadSpokenTalkGroups {} {
+    variable spokenTgTable
+
+    set cfg [Config::new "TalkGroups.conf"]
+
+    if {[$cfg sectionExists "SpokenTalkGroups"]} {
+        foreach tg [$cfg listKeys "SpokenTalkGroups"] {
+            set spokenTgTable($tg) [$cfg get "SpokenTalkGroups" $tg]
+        }
+    }
+}
+
+# Load at logic init
+loadSpokenTalkGroups
+
+# Preserve original say_talkgroup if present
+if {[info procs say_talkgroup] ne ""} {
+    rename say_talkgroup say_talkgroup_default
+}
+
+proc say_talkgroup {tg} {
+    variable spokenTgTable
+
+    if {[info exists spokenTgTable($tg)]} {
+        playMsg $spokenTgTable($tg) "" 0
+        return
+    }
+
+    if {[info procs say_talkgroup_default] ne ""} {
+        say_talkgroup_default $tg
+    } else {
+        spellNumber $tg
+    }
+}
+
+# --- End Spoken TalkGroup support -------------------------
