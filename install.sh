@@ -40,6 +40,6 @@ proc say_talkgroup {tg} {\n\
 # now we move the talkgroup wav files to a good location
 sudo mkdir -p /usr/share/svxlink/en_GB/sounds/Custom
 sudo cp -r SpeakSvxLinkTalkGroups/customTG/* /usr/share/svxlink/en_GB/sounds/Custom/
-sudo cp -r SpeakSvxLinkTalkGroups/talkgroup/TalkGroups.conf /etc/svxlink/svxlink.d/
+sudo cp -r SpeakSvxLinkTalkGroups/configs/TalkGroups.conf /etc/svxlink/svxlink.d/
 sudo systemctl restart svxlink
 
