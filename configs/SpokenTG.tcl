@@ -1,20 +1,30 @@
 ###############################################################################
-# Spoken TalkGroups override for ReflectorV2LogicType
-# Should be sourced after LogicBase.tcl in the reflector namespace
+# Spoken TalkGroups override
 ###############################################################################
 
-# Preserve the original say_talkgroup if it exists
+# Preserve original say_talkgroup
 if {[info procs say_talkgroup] ne ""} {
     rename say_talkgroup say_talkgroup_default
 }
 
-# Table of custom TG → WAV path
 variable spokenTgTable
+variable spokenTgLoaded 0
 array set spokenTgTable {}
 
 proc loadSpokenTalkGroups {} {
     variable spokenTgTable
+    variable spokenTgLoaded
+
+    # Guard: load only once
+    if {$spokenTgLoaded} {
+        return
+    }
+
+    set spokenTgLoaded 1
+
+    # Config is now guaranteed to exist
     set cfg [Config::new "TalkGroups.conf"]
+
     if {[$cfg sectionExists "SpokenTalkGroups"]} {
         foreach tg [$cfg listKeys "SpokenTalkGroups"] {
             set spokenTgTable($tg) [$cfg get "SpokenTalkGroups" $tg]
@@ -22,18 +32,18 @@ proc loadSpokenTalkGroups {} {
     }
 }
 
-# Load the table immediately
-loadSpokenTalkGroups
-
-# Override say_talkgroup
 proc say_talkgroup {tg} {
     variable spokenTgTable
+
+    # Lazy-load config on first use
+    loadSpokenTalkGroups
+
     if {[info exists spokenTgTable($tg)]} {
         playMsg $spokenTgTable($tg) "" 0
         return
     }
 
-    # fallback to original
+    # Fallback
     if {[info procs say_talkgroup_default] ne ""} {
         say_talkgroup_default $tg
     } else {
