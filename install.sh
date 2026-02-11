@@ -1,5 +1,6 @@
 #!/bin/bash
 #here we install the talkgroup project first
+sudo cp /usr/share/svxlink/events.d/LogicBase.tcl /usr/share/svxlink/events.d/LogicBase.tcl.orig
 sudo sed -i '/# End of namespace Logic/i \
 # --- Spoken TalkGroup support ----------------------------\n\
 variable spokenTgTable\n\
