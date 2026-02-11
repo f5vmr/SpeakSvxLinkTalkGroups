@@ -37,6 +37,7 @@ proc say_talkgroup {tg} {
 
     # Lazy-load config on first use
     loadSpokenTalkGroups
+puts "SpokenTG: TG=$tg custom=[info exists spokenTgTable($tg)]"
 
     if {[info exists spokenTgTable($tg)]} {
         playMsg $spokenTgTable($tg) "" 0
