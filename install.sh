@@ -39,7 +39,7 @@ proc say_talkgroup {tg} {\n\
 # that's the logic that adds our code to the LogicBase.tcl
 # now we move the talkgroup wav files to a good location
 sudo mkdir -p /usr/share/svxlink/sounds/en_GB/Custom
-sudo cp -r SpeakSvxLinkTalkGroups/customTG/* /usr/share/svxlink/en_GB/sounds/Custom/
+sudo cp -r SpeakSvxLinkTalkGroups/customTG/* /usr/share/svxlink/sounds/en_GB/Custom/
 sudo cp -r SpeakSvxLinkTalkGroups/configs/TalkGroups.conf /etc/svxlink/svxlink.d/
 sudo systemctl restart svxlink
 
